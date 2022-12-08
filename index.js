@@ -10,22 +10,60 @@ app.set('view engine', 'ejs');
 
 app.use(express.static('public'))
 
-
 app.get('/' , async(req, res,) => {
  
     res.render('pages/index.ejs');
 
 })
 
+
+
 app.get('/addc' , async(req, res,) => {
       
     res.render('pages/addcateg');
   }
   )
-  app.get('/get' , async(req, res,) => {
+  app.get('/getc' , async(req, res,) => {
+     
+    res.render('pages/showcateg');
+
+  })
+  app.get('/editc/:id' , async(req, res,) => {
+     
+    res.render('pages/editcat',{
+      id : req.params.id,
+    });
+
+  })
+  app.get('/delc/:id' , async(req, res,) => {
+     
+    res.render('pages/showcateg',{
+      id : req.params.id,
+    });
+
+  })
+
+ 
+
+
+
+
+app.get('/addp' , async(req, res,) => {
+      
+    res.render('pages/addprod');
+  }
+  )
+  app.get('/getp' , async(req, res,) => {
      
     
-    res.render('pages/showcateg');
+    res.render('pages/showprod');
+
+  })
+  app.get('/editp/:id' , async(req, res,) => {
+   
+    res.render('pages/editprod',{
+      id : req.params.id,
+    });
 
   })
   
