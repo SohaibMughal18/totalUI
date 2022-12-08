@@ -11,14 +11,17 @@
         <svg class="circular" viewBox="25 25 50 50">
             <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" /> </svg>
     </div>
- 
-            
+    <!-- ============================================================== -->
+    <!-- Main wrapper - style you can find in pages.scss -->
+    <!-- ============================================================== -->
     <div id="main-wrapper">
-
+    
         <%- include('../partials/side'); %>
-   
+ 
         <div class="page-wrapper">
-         
+            <!-- ============================================================== -->
+            <!-- Bread crumb and right sidebar toggle -->
+            <!-- ============================================================== -->
             <div class="row page-titles">
                 <div class="col-md-5 align-self-center">
                     <h3 class="text-themecolor">Table basic</h3>
@@ -34,7 +37,7 @@
                     <button class="right-side-toggle waves-effect waves-light btn-inverse btn btn-circle btn-sm pull-right m-l-10"><i class="ti-settings text-white"></i></button>
                 </div>
             </div>
-      
+ 
             <div class="container-fluid">
                 <!-- ============================================================== -->
                 <!-- Start Page Content -->
@@ -52,12 +55,13 @@
                                             <tr>
                                                 <th>#Id</th>
                                                 <th>Name</th>
-                                                <th>Description</th>
+                                                <th>Price</th>
+                                                <th>Category</th>
                                                 <th>Action</th>
                                               
                                             </tr>
                                         </thead>
-                                        <tbody id="cat">
+                                        <tbody id="prod">
                                             
                                         </tbody>
                                     </table>
@@ -65,37 +69,43 @@
                             </div>
                         </div>
                     </div>
-                    </div>
                     <script>
-                     db.collection("categories").get().then((cat)=>{
+                     db.collection("products").get().then((cat)=>{
                         cat.forEach((ref)=>{
-                            $('#cat').append(`<tr>
-                                <td> ${ref.id} </td>
-                                <td> ${ref.data().categ_name}</td>
-                                <td> ${ref.data().categ_desc}</td>
-                                <td>
-                          <a href="editc/${ref.id}">Edit</a>
-                          <button  class="deelete" data-id="${ref.id}">Delete</button>
+                            db.collection("categories").doc(ref.data().prod_category).get().then((pro)=>{
+ 
+                                $('#prod').append(`<tr>
+                                    <td> ${ref.id} </td>
+                                    <td> ${ref.data().prod_name}</td>
+                                    <td> ${ref.data().prod_price}</td>
+                                    <td> ${pro.data().categ_name}</td>
+                                    <td>
+                          <a href="editp/${ref.id}">Edit</a>
+                          <button  class="delete" data-id="${ref.id}">Delete</button>
                           </td> 
-                                </tr>`)
+                                    </tr>`)
+                                })
                         })
                      })
                     </script>
-                    <script>
-                        $(document).on("click",".deelete",function(){
-
-                            var docId = $(this).attr("data-id")
-                            console.log(docId);
-                        db.collection('categories').doc(docId)
+       
+       <script>
+    $(document).on("click",".delete",function(){
+    
+     var docId = $(this).attr("data-id")
+           console.log(docId);
+          db.collection('products').doc(docId)
                   
-                        .delete().then(function(){
+             .delete().then(function(){
                                 // alert("Document Deleted");
                                  location.reload();
                              }).catch(function(err){
             console.log(err)
-        });
-                        })
-                     </script>
+})
+  });
+     </script>
+                </div>
+              
                 <div class="right-sidebar">
                     <div class="slimscrollright">
                         <div class="rpanel-title"> Service Panel <span><i class="ti-close right-side-toggle"></i></span> </div>
@@ -150,13 +160,15 @@
                 <!-- End Right sidebar -->
                 <!-- ============================================================== -->
             </div>
-        
+  
             <footer class="footer">
                 © 2019 Admin Press Admin by themedesigner.in
             </footer>
-
+       
         </div>
- 
+        <!-- ============================================================== -->
+        <!-- End Page wrapper  -->
+        <!-- ============================================================== -->
     </div>
 
     <script src="../assets/plugins/jquery/jquery.min.js"></script>

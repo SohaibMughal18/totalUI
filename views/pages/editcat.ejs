@@ -11,91 +11,83 @@
         <svg class="circular" viewBox="25 25 50 50">
             <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" /> </svg>
     </div>
- 
-            
+    <!-- ============================================================== -->
+    <!-- Main wrapper - style you can find in pages.scss -->
+    <!-- ============================================================== -->
     <div id="main-wrapper">
 
         <%- include('../partials/side'); %>
-   
+    
         <div class="page-wrapper">
-         
+            <!-- ============================================================== -->
+            <!-- Bread crumb and right sidebar toggle -->
+            <!-- ============================================================== -->
             <div class="row page-titles">
                 <div class="col-md-5 align-self-center">
-                    <h3 class="text-themecolor">Table basic</h3>
+                    <h3 class="text-themecolor">Form Basic</h3>
                 </div>
                 <div class="col-md-7 align-self-center">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
-                        <li class="breadcrumb-item">pages</li>
-                        <li class="breadcrumb-item active">Table basic</li>
+                        <li class="breadcrumb-item">Forms</li>
+                        <li class="breadcrumb-item active">Form Basic</li>
                     </ol>
                 </div>
-                <div>
+                <div class="">
                     <button class="right-side-toggle waves-effect waves-light btn-inverse btn btn-circle btn-sm pull-right m-l-10"><i class="ti-settings text-white"></i></button>
                 </div>
             </div>
-      
+       
             <div class="container-fluid">
-                <!-- ============================================================== -->
-                <!-- Start Page Content -->
-                <!-- ============================================================== -->
+                <script>
+                    var docID = "<%=id%>"
+                    console.log(docID);
+                       db.collection("categories").doc(docID).get().then((ref)=>{
+                       
+                             $("#categ_name").val(ref.data().categ_name);
+                             $("#categ_desc").val(ref.data().categ_desc);
+                
+                          })
+                     
+                    
+                 </script>
+              
+                <!-- .row -->
                 <div class="row">
-                    <!-- column -->
-                    <div class="col-lg-12">
+                    <div class="col-sm-12">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="card-title">Basic Table</h4>
-                                <h6 class="card-subtitle">Add class <code>.table</code></h6>
-                                <div class="table-responsive">
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th>#Id</th>
-                                                <th>Name</th>
-                                                <th>Description</th>
-                                                <th>Action</th>
-                                              
-                                            </tr>
-                                        </thead>
-                                        <tbody id="cat">
-                                            
-                                        </tbody>
-                                    </table>
+                                <div class="d-flex no-block align-items-center">
+                                    <div>
+                                        <h4 class="card-title">Default Basic Forms</h4>
+                                        <h6 class="card-subtitle"> All bootstrap element classies </h6>
+                                    </div>
+                                    <div class="ml-auto">
+                                        <button class="btn btn-danger btn-sm pull-right collapsed" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample"> Get code <i class="ti-angle-down"></i></button>
+                                    </div>
                                 </div>
+                             
+                                    <div class="form-group m-t-40 row">
+                                        <label for="example-text-input" class="col-2 col-form-label">Name</label>
+                                        <div class="col-10">
+                                            <input class="form-control" type="text" placeholder="Category Name"  id="categ_name" >
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="example-search-input" class="col-2 col-form-label">Description</label>
+                                        <div class="col-10">
+                                            <input class="form-control" type="search" placeholder="Category Desccription" id="categ_desc">
+                                        </div>
+                                    </div>
+                                   
+                                    <div class="ml-auto form-group row">
+                                        <button type="submit"class="btn btn-danger" id="sub2">Submit</button>
+                                    </div>
+                            
                             </div>
                         </div>
                     </div>
-                    </div>
-                    <script>
-                     db.collection("categories").get().then((cat)=>{
-                        cat.forEach((ref)=>{
-                            $('#cat').append(`<tr>
-                                <td> ${ref.id} </td>
-                                <td> ${ref.data().categ_name}</td>
-                                <td> ${ref.data().categ_desc}</td>
-                                <td>
-                          <a href="editc/${ref.id}">Edit</a>
-                          <button  class="deelete" data-id="${ref.id}">Delete</button>
-                          </td> 
-                                </tr>`)
-                        })
-                     })
-                    </script>
-                    <script>
-                        $(document).on("click",".deelete",function(){
-
-                            var docId = $(this).attr("data-id")
-                            console.log(docId);
-                        db.collection('categories').doc(docId)
-                  
-                        .delete().then(function(){
-                                // alert("Document Deleted");
-                                 location.reload();
-                             }).catch(function(err){
-            console.log(err)
-        });
-                        })
-                     </script>
+                </div>
                 <div class="right-sidebar">
                     <div class="slimscrollright">
                         <div class="rpanel-title"> Service Panel <span><i class="ti-close right-side-toggle"></i></span> </div>
@@ -146,41 +138,64 @@
                         </div>
                     </div>
                 </div>
-                <!-- ============================================================== -->
-                <!-- End Right sidebar -->
-                <!-- ============================================================== -->
+ 
             </div>
-        
+             
             <footer class="footer">
                 © 2019 Admin Press Admin by themedesigner.in
             </footer>
-
+        
         </div>
- 
-    </div>
 
+    </div>
+    <script>
+          var docID = "<%=id%>"
+    $("#sub2").click(function(){
+        var categ_name  = $("#categ_name").val();
+        var categ_desc  = $("#categ_desc").val();
+        console.log(categ_name)
+        console.log(categ_desc)
+        db.collection('categories').doc(docID).update({
+            categ_name ,
+            categ_desc
+        }).then(function(ref){
+       
+            alert('Doc Updated');
+            $("#categ_name").val("");
+            $("#categ_desc").val("")
+            // location.reload();
+        }).catch(function(err){
+            console.log(err)
+        })
+    });
+    </script>
     <script src="../assets/plugins/jquery/jquery.min.js"></script>
     <!-- Bootstrap tether Core JavaScript -->
     <script src="../assets/plugins/bootstrap/js/popper.min.js"></script>
     <script src="../assets/plugins/bootstrap/js/bootstrap.min.js"></script>
     <!-- slimscrollbar scrollbar JavaScript -->
-    <script src="js/jquery.slimscroll.js"></script>
+    <script src="../js/jquery.slimscroll.js"></script>
     <!--Wave Effects -->
-    <script src="js/waves.js"></script>
+    <script src="../js/waves.js"></script>
     <!--Menu sidebar -->
-    <script src="js/sidebarmenu.js"></script>
+    <script src="../js/sidebarmenu.js"></script>
     <!--stickey kit -->
     <script src="../assets/plugins/sticky-kit-master/dist/sticky-kit.min.js"></script>
     <script src="../assets/plugins/sparkline/jquery.sparkline.min.js"></script>
     <!--Custom JavaScript -->
-    <script src="js/custom.min.js"></script>
-    <!-- jQuery peity -->
-    <script src="../assets/plugins/peity/jquery.peity.min.js"></script>
-    <script src="../assets/plugins/peity/jquery.peity.init.js"></script>
+    <script src="../js/custom.min.js"></script>
+    <!-- ============================================================== -->
+    <!-- This page plugins -->
+    <!-- ============================================================== -->
+    <script src="../js/jasny-bootstrap.js"></script>
     <!-- ============================================================== -->
     <!-- Style switcher -->
     <!-- ============================================================== -->
     <script src="../assets/plugins/styleswitcher/jQuery.style.switcher.js"></script>
+    <script>
+  
+           
+        </script>
 </body>
 
 </html>
