@@ -161,9 +161,10 @@
         }).then(function(ref){
        
             alert('Doc Updated');
-            $("#categ_name").val("");
-            $("#categ_desc").val("")
+            // $("#categ_name").val("");
+            // $("#categ_desc").val("")
             // location.reload();
+            window.location.assign("/getc"); 
         }).catch(function(err){
             console.log(err)
         })

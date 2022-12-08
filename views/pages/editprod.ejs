@@ -177,10 +177,10 @@
         }).then(function(ref){
        
             alert('Doc Updated');
-            $("#prod_name").val("");
-            $("#prod_price").val("");
-            $("#prod_category").val("");
-            // location.reload();
+            // $("#prod_name").val("");
+            // $("#prod_price").val("");
+            // $("#prod_category").val("");
+            window.location.assign("/getp"); 
         }).catch(function(err){
             console.log(err)
         })
